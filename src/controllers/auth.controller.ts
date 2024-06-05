@@ -48,23 +48,16 @@ export const createUser = async (req: Request, res: Response) => {
 export const session = async (req: Request, res: Response) => {
   const { username, password } = req.body;
   try {
-    const response = await axios.post(
-      `${keycloakConfig.baseUrl}/realms/${keycloakConfig.realmName}/protocol/openid-connect/token`,
-      {
-        grant_type: "password",
-        client_id: keycloakConfig.clientId,
-        client_secret: keycloakConfig.clientSecret,
-        username: username,
-        password: password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
+    await keycloakAdmin.auth({
+      grantType: "password",
+      clientId: keycloakConfig.clientId,
+      clientSecret: keycloakConfig.clientSecret,
+      username: username,
+      password: password,
+    });
 
-    res.status(200).json(response.data);
+    const token = keycloakAdmin.accessToken;
+    res.status(200).json({ token });
   } catch (error) {
     console.error("Failed to login:", error);
     res.status(500).json({ error: "Failed to login" });
