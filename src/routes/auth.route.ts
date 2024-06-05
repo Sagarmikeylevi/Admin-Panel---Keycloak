@@ -5,6 +5,6 @@ import { authenticateKeycloakAdmin } from "../middleware/authkeyclock.js";
 const authRouter = Router();
 
 authRouter.post("/register", authenticateKeycloakAdmin, createUser);
-authRouter.post("/login", authenticateKeycloakAdmin, session);
+authRouter.post("/login", session);
 
 export default authRouter;

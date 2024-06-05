@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { keycloakAdmin, keycloakConfig } from "../utils/keycloak.js";
-import axios from "axios";
 import { verifyAdminToken } from "../utils/verifyAdminToken.js";
 
 export const adminSession = async (req: Request, res: Response) => {
